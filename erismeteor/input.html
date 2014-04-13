@@ -4,18 +4,12 @@
 
 <body>
   <div id="outer">
-  	<div id="leftBuffer"></div>
-  	<div id="Name">
+   	<div id="Name">
 		<h1 id="title">ERIS</h1>
   	</div>
-  	<div>
-		<div id="leftBuffer"></div>
-<!--		<div id="game" class="gameboard">{{> renderboard}}</div>-->
-	</div>
-	<div>
-		<div id="leftBuffer"></div>
-		<div id="buttons"><p>{{> outputinput}}</p></div> 
-    </div>
+	<div id="game" class="gameboard">{{> renderboard}}</div>
+	<div id="buttons"><p>{{> outputinput}}</p></div> 
+    
 	<div id="overlay"><p>{{> displayoverlay}}</p></div>
 
 	{{> leaderboard}}
@@ -24,7 +18,7 @@
 
 <template name="renderboard">
 	{{# each pixel}}
-	{{makePixel}}	
+		<p class="C{{color}}">O</p>	
 	{{/each}}
 </template>
 

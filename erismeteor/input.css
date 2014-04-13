@@ -20,6 +20,38 @@
 	display: inline-block;
 }*/
 
+.C1 {
+	line-height: 1px;
+	margin: 3px 0px 0px 0px;
+	font-size: 10px;
+	color: blue;
+	display: inline-block;
+}
+
+.C2 {
+    line-height: 1px;
+    margin: 3px 0px 0px 0px;
+	font-size: 10px;
+	color: black;
+	display: inline-block;
+}
+
+.C3 {
+    line-height: 1px;
+    margin: 3px 0px 0px 0px;
+	font-size: 10px;
+	color: yellow;
+	display: inline-block;
+}
+
+.C4 {
+    line-height: 1px;
+    margin: 3px 0px 0px 0px;
+	font-size: 10px;
+	color: white;
+	display: inline-block;
+}
+
 .pixel {
 	display: inline-block;
 	height: 2px;
@@ -27,13 +59,14 @@
 }
 
 .gameboard {
+	font-size: 5px;
 	margin-top: 2em;
 	margin-left: 5em;
 	display: inline-block;
-	width: 320px;
-	height: 288px;
-	padding: 2px 2px 2px 2px;
+	width: 360px;
+	height: 302px;
 	background-color: red;
+	padding: 2px 2px 2px 2px;
 }
 
 .controls {
@@ -70,7 +103,7 @@
 }
 
 .move {
-	margin: 10px 5px 30px 5px;
+	margin: 10px 5px 20px 5px;
 	display: block;
 	color: white;
 	font-size: 18px;
