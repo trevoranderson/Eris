@@ -18,20 +18,20 @@
 
 <template name="renderboard">
 	{{# each pixel}}
-		<p class="C{{color}}">O</p>	
+		<p id="{{row}}_{{col}}" class="C{{color}}">O</p>	
 	{{/each}}
 </template>
 
 <template name="outputinput">
-	<div class="controls">
-		<p id="up">UP</p>
-		<p id="down">DOWN</p>
-		<p id="right">RIGHT</p>
-		<p id="left">LEFT</p>
-		<p id="start">START</p>
-		<p id="select">SELECT</p>
-		<p id="a">A</p>
-		<p id="b">B</p>
+	<div class="controls2">
+		<div id="up">U</div>
+		<div id="down">D</div>
+		<div id="right">R</div>
+		<div id="left">L</div>
+		<div id="start">ST</div>
+		<div id="select">SEL</div>
+		<div id="a">A</div>
+		<div id="b">B</div>
 	</div>
 </template>
 <template name="displayoverlay">

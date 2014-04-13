@@ -173,9 +173,9 @@ if (Meteor.isServer) {
    	 }
   	}
 		if (Screen.find().count() === 0) {
-			for (var i = 0; i<16; i++) {
-				for (var j = 0; j<14; j++) {
-					Screen.insert({row: i, col: j, color: Math.floor((i*j)%4)+1});
+			for (var i = 0; i<40; i++) {
+				for (var j = 0; j<36; j++) {
+					Screen.insert({row: i, col: j, color: Math.floor((i)%2)});
 				}
 			}
  		}
