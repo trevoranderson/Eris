@@ -117,7 +117,7 @@ if (Meteor.isClient) {
 	});
   
   Template.renderboard.pixel = function () {
- 	return Screen.find({}, {sort:{col: 1}});
+ 	return Screen.find({}, {sort:{col: 1, row: 1}});
   };  
 
   Template.renderboard.makePixel = function () {
