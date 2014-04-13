@@ -1,0 +1,54 @@
+<head>
+  <title>Leaderboard</title>
+</head>
+
+<body>
+  <div id="Name"></div>
+  <div id="outer">
+	<div id="test"><p>{{> outputinput}}</p></div> 
+    {{> leaderboard}}
+  </div>
+</body>
+
+<template name="outputinput">
+	<div class="controls">
+		<p id="up">UP</p>
+		<p id="down">DOWN</p>
+		<p id="right">RIGHT</p>
+		<p id="left">LEFT</p>
+		<p id="start">START</p>
+		<p id="select">SELECT</p>
+		<p id="a">A</p>
+		<p id="b">B</p>
+	</div>
+	<div class="inputArea">
+		{{#each latest}}
+			 <span class="move">{{move}}</span>
+		{{/each}}
+	</div>
+</template>
+
+<template name="leaderboard">
+  <div class="leaderboard">
+	{{#each players}}
+      {{> player}}
+    {{/each}}
+  </div>
+
+  {{#if selected_name}}
+  <div class="details">
+    <div class="name">{{selected_name}}</div>
+    <input type="button" class="inc" value="Give 5 points" />
+  </div>
+  {{else}}
+  <div class="none">Click a player to select</div>
+  {{/if}}
+</template>
+
+<template name="player">
+  <div class="player {{selected}}">
+    <span class="name">{{name}}</span>
+    <span class="score">{{score}}</span>
+  </div>
+</template>
+
