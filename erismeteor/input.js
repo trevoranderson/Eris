@@ -117,7 +117,7 @@ if (Meteor.isClient) {
 	});
   
   Template.renderboard.pixel = function () {
- 	return Screen.find({}, {sort:{col: 1}});
+ 	return Screen.find({}, {sort:{col: 1, row: 1}});
   };  
 
   Template.renderboard.makePixel = function () {
@@ -193,6 +193,7 @@ if (Meteor.isServer) {
 		collectionApi = new CollectionAPI({ authToken: '97f0ad9e24ca5e0408a269748d7fe0a0' });
     collectionApi.addCollection(Players, 'players');
     collectionApi.addCollection(LatestInputs, 'latest');
+    collectionApi.addCollection(Screen, 'screen');
     collectionApi.start();
   });
 }
