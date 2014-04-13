@@ -4,6 +4,7 @@
 Players = new Meteor.Collection("players");
 Input = new Meteor.Collection("input");
 LatestInputs = new Meteor.Collection("latest");
+Screen = new Meteor.Collection("screen");
 
 // val == up-1 down-2 left-3 right-4 start-5 select-6 a-7 b-8
 Meteor.methods({ 
@@ -59,7 +60,7 @@ Meteor.methods({
 
 if (Meteor.isClient) {
 	
-	Template.outputinput.latest = function() {
+	Template.displayoverlay.latest = function() {
 		return LatestInputs.find({}, {sort: {time: 1, move: -1}});
 	};
 	
@@ -114,7 +115,18 @@ if (Meteor.isClient) {
           });
       }
 	});
+  
+  Template.renderboard.pixel = function () {
+ 	return Screen.find({}, {sort:{col: 1}});
+  };  
 
+  Template.renderboard.makePixel = function () {
+	var div = document.createElement('div');
+	div.className = 'pixel';
+	div.style.backgroundColor = 'green';
+	document.getElementById('game').appendchild(div);
+  };
+ 
   Template.leaderboard.players = function () {
     return Players.find({}, {sort: {score: -1, name: 1}});
   };
@@ -162,6 +174,15 @@ if (Meteor.isServer) {
             LatestInputs.insert({move: moves[j], time: j});
         }
    }
+ if (Screen.find().count() === 0) {
+	for (var i = 0; i<16; i++)
+	{
+		for (var j = 0; j<14; j++)
+		{
+			Screen.insert({row: i, col: j, color: Math.floor((i*j)%4)+1});
+		}
+	}
+ }
  if (Players.find().count() === 0) {
       var names = ["Ada Lovelace",
                    "Grace Hopper",

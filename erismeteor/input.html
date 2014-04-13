@@ -3,12 +3,30 @@
 </head>
 
 <body>
-  <div id="Name"></div>
   <div id="outer">
-	<div id="test"><p>{{> outputinput}}</p></div> 
-    {{> leaderboard}}
+  	<div id="leftBuffer"></div>
+  	<div id="Name">
+		<h1 id="title">ERIS</h1>
+  	</div>
+  	<div>
+		<div id="leftBuffer"></div>
+<!--		<div id="game" class="gameboard">{{> renderboard}}</div>-->
+	</div>
+	<div>
+		<div id="leftBuffer"></div>
+		<div id="buttons"><p>{{> outputinput}}</p></div> 
+    </div>
+	<div id="overlay"><p>{{> displayoverlay}}</p></div>
+
+	{{> leaderboard}}
   </div>
 </body>
+
+<template name="renderboard">
+	{{# each pixel}}
+	{{makePixel}}	
+	{{/each}}
+</template>
 
 <template name="outputinput">
 	<div class="controls">
@@ -21,6 +39,8 @@
 		<p id="a">A</p>
 		<p id="b">B</p>
 	</div>
+</template>
+<template name="displayoverlay">
 	<div class="inputArea">
 		{{#each latest}}
 			 <span class="move">{{move}}</span>
