@@ -159,39 +159,40 @@ if (Meteor.isClient) {
 // On server startup, create some players if the database is empty.
 if (Meteor.isServer) {
   Meteor.startup(function () {
-	if (Input.find().count() === 0){
-		var moves = ["potato", "kitty", "stacks"];
-		for(var j = 0; j < moves.length; j++)
-		{
-			Input.insert({move: moves[j], time: 0});
+		if (Input.find().count() === 0){
+			var moves = ["potato", "kitty", "stacks"];
+			for(var j = 0; j < moves.length; j++)	{
+				Input.insert({move: moves[j], time: 0});
+			}
 		}
-	}
 
-  if (LatestInputs.find().count() === 0){
-        var moves = ["Imagine", "How", "Much", "Better", "This", "Would", "Be", "With", "Internet", "._."];
-        for(var j = 0; j < moves.length; j++)
-        {
-            LatestInputs.insert({move: moves[j], time: j});
-        }
-   }
- if (Screen.find().count() === 0) {
-	for (var i = 0; i<16; i++)
-	{
-		for (var j = 0; j<14; j++)
-		{
-			Screen.insert({row: i, col: j, color: Math.floor((i*j)%4)+1});
-		}
-	}
- }
- if (Players.find().count() === 0) {
-      var names = ["Ada Lovelace",
-                   "Grace Hopper",
-                   "Marie Curie",
-                   "Carl Friedrich Gauss",
-                   "Nikola Tesla",
-                   "Claude Shannon"];
-      for (var i = 0; i < names.length; i++)
-        Players.insert({name: names[i], score: Math.floor(Random.fraction()*10)*5});
- 	}
+  	if (LatestInputs.find().count() === 0) {
+	 	 var moves = ["Imagine", "How", "Much", "Better", "This", "Would", "Be", "With", "Internet", "._."];
+   	 for(var j = 0; j < moves.length; j++) {
+   	   LatestInputs.insert({move: moves[j], time: j});
+   	 }
+  	}
+		if (Screen.find().count() === 0) {
+			for (var i = 0; i<16; i++) {
+				for (var j = 0; j<14; j++) {
+					Screen.insert({row: i, col: j, color: Math.floor((i*j)%4)+1});
+				}
+			}
+ 		}
+		if (Players.find().count() === 0) {
+ 	     var names = ["Ada Lovelace",
+ 	                  "Grace Hopper",
+ 	                  "Marie Curie",
+ 	                  "Carl Friedrich Gauss",
+ 	                  "Nikola Tesla",
+ 	                  "Claude Shannon"];
+ 	     for (var i = 0; i < names.length; i++)
+ 	       Players.insert({name: names[i], score: Math.floor(Random.fraction()*10)*5});
+ 		}
+
+		collectionApi = new CollectionAPI({ authToken: '97f0ad9e24ca5e0408a269748d7fe0a0' });
+    collectionApi.addCollection(Players, 'players');
+    collectionApi.addCollection(LatestInputs, 'latest');
+    collectionApi.start();
   });
 }
