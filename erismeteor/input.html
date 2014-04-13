@@ -5,7 +5,7 @@
 <body>
   <div id="Name"></div>
   <div id="outer">
-	<div id="test"><p>{{> outputinput}}</p></div>
+	<div id="test"><p>{{> outputinput}}</p></div> 
     {{> leaderboard}}
   </div>
 </body>
@@ -21,8 +21,8 @@
 		<p id="a">A</p>
 		<p id="b">B</p>
 	</div>
-	<div>
-		{{#each input}}
+	<div class="inputArea">
+		{{#each latest}}
 			 <span class="move">{{move}}</span>
 		{{/each}}
 	</div>

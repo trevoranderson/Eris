@@ -3,38 +3,115 @@
 
 Players = new Meteor.Collection("players");
 Input = new Meteor.Collection("input");
+LatestInputs = new Meteor.Collection("latest");
+
+// val == up-1 down-2 left-3 right-4 start-5 select-6 a-7 b-8
+Meteor.methods({ 
+ 
+	stamp: function(val) {
+		switch(val)
+		{
+			case 1:
+				Input.insert(LatestInputs.findOne({}, {sort: {time: 1}}));
+				LatestInputs.remove(LatestInputs.findOne({}, {sort: {time: 1}}));
+				LatestInputs.insert({move: "up", time: (new Date()).getTime()}); 
+				break;
+			case 2:
+                Input.insert(LatestInputs.findOne({}, {sort: {time: 1}}));
+                LatestInputs.remove(LatestInputs.findOne({}, {sort: {time: 1}}));
+				LatestInputs.insert({move: "down", time: (new Date()).getTime()});
+				break;
+			case 3:
+                Input.insert(LatestInputs.findOne({}, {sort: {time: 1}}));
+                LatestInputs.remove(LatestInputs.findOne({}, {sort: {time: 1}}));
+				LatestInputs.insert({move: "left", time: (new Date()).getTime()});
+				break;
+			case 4:
+                Input.insert(LatestInputs.findOne({}, {sort: {time: 1}}));
+                LatestInputs.remove(LatestInputs.findOne({}, {sort: {time: 1}}));
+				LatestInputs.insert({move: "right", time: (new Date()).getTime()});
+				break;
+			case 5:
+                Input.insert(LatestInputs.findOne({}, {sort: {time: 1}}));
+                LatestInputs.remove(LatestInputs.findOne({}, {sort: {time: 1}}));
+				LatestInputs.insert({move: "start", time: (new Date()).getTime()});
+				break;
+			case 6:
+                Input.insert(LatestInputs.findOne({}, {sort: {time: 1}}));
+                LatestInputs.remove(LatestInputs.findOne({}, {sort: {time: 1}}));
+				LatestInputs.insert({move: "select", time: (new Date()).getTime()});
+				break;
+			case 7:
+                Input.insert(LatestInputs.findOne({}, {sort: {time: 1}}));
+                LatestInputs.remove(LatestInputs.findOne({}, {sort: {time: 1}}));
+				LatestInputs.insert({move: "a", time: (new Date()).getTime()});
+				break;
+			case 8:
+                Input.insert(LatestInputs.findOne({}, {sort: {time: 1}}));
+                LatestInputs.remove(LatestInputs.findOne({}, {sort: {time: 1}}));
+				LatestInputs.insert({move: "b", time: (new Date()).getTime()});
+				break;
+			default:
+		} 
+		return (new Date()).getTime();
+	}
+});
 
 if (Meteor.isClient) {
 	
-	Template.outputinput.input = function() {
-	  return Input.find({}, {sort: {time: 1, move: -1}}); 
+	Template.outputinput.latest = function() {
+		return LatestInputs.find({}, {sort: {time: 1, move: -1}});
 	};
 	
 	Template.outputinput.events({
-	
+	  
       'click #up': function () {
-      	 Input.insert({move: "up", time: (new Date()).getTime()});
+      	  Meteor.call('stamp', 1, function(error) {
+			if (error)       
+			 return alert(error.reason)
+		  });
 	  },
       'click #down': function () {
-         Input.insert({move: "down", time: (new Date()).getTime()});
-      },
-      'click #right': function () {
-         Input.insert({move: "right", time: (new Date()).getTime()});
-      },
+          Meteor.call('stamp', 2, function(error) {
+            if (error)
+             return alert(error.reason)
+          });      
+	  },
       'click #left': function () {
-         Input.insert({move: "left", time: (new Date()).getTime()});
+          Meteor.call('stamp', 3, function(error) {
+            if (error)
+             return alert(error.reason)
+          });      
+	  },
+      'click #right': function () {
+          Meteor.call('stamp', 4, function(error) {
+            if (error)
+             return alert(error.reason)
+          });
       },
       'click #start': function () {
-         Input.insert({move: "start", time: (new Date()).getTime()});
+          Meteor.call('stamp', 5, function(error) {
+            if (error)
+             return alert(error.reason)
+          });
       },
       'click #select': function () {
-         Input.insert({move: "select", time: (new Date()).getTime()});
+          Meteor.call('stamp', 6, function(error) {
+            if (error)
+             return alert(error.reason)
+          });
       },
       'click #a': function () {
-         Input.insert({move: "a", time: (new Date()).getTime()});
+          Meteor.call('stamp', 7, function(error) {
+            if (error)
+             return alert(error.reason)
+          });
       },
       'click #b': function () {
-         Input.insert({move: "b", time: (new Date()).getTime()});
+          Meteor.call('stamp', 8, function(error) {
+            if (error)
+             return alert(error.reason)
+          });
       }
 	});
 
@@ -78,7 +155,14 @@ if (Meteor.isServer) {
 		}
 	}
 
-    if (Players.find().count() === 0) {
+  if (LatestInputs.find().count() === 0){
+        var moves = ["Imagine", "How", "Much", "Better", "This", "Would", "Be", "With", "Internet", "._."];
+        for(var j = 0; j < moves.length; j++)
+        {
+            LatestInputs.insert({move: moves[j], time: j});
+        }
+   }
+ if (Players.find().count() === 0) {
       var names = ["Ada Lovelace",
                    "Grace Hopper",
                    "Marie Curie",
