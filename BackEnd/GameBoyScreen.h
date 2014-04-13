@@ -5,6 +5,7 @@
 #define GBWIDTH 160
 #define XOFFSET -6
 #define YOFFSET 53
+const int scalefactor = 4;
 class GameBoyScreen
 {
 public:
@@ -64,3 +65,4 @@ public:
 };
 
 bool operator==(GameBoyScreen A, GameBoyScreen B);
+bool operator!=(GameBoyScreen A, GameBoyScreen B);

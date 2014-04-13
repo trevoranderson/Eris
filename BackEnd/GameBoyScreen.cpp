@@ -2,9 +2,9 @@
 
 bool operator==(GameBoyScreen A, GameBoyScreen B)
 {
-	for (int y = 0; y < GBHEIGHT; y++)
+	for (int y = 0; y < GBHEIGHT; y+= scalefactor)
 	{
-		for (int x = 0; x < GBWIDTH; x++)
+		for (int x = 0; x < GBWIDTH; x+= scalefactor)
 		{
 			if (A.pixels[y][x] != B.pixels[y][x])
 			{
@@ -13,4 +13,8 @@ bool operator==(GameBoyScreen A, GameBoyScreen B)
 		}
 	}
 	return true;
+}
+bool operator!=(GameBoyScreen A, GameBoyScreen B)
+{
+	return !(A == B);
 }

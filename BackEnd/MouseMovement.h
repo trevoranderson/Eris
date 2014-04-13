@@ -171,6 +171,10 @@ public:
 		ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
 		SendInput(1, &ip, sizeof(INPUT));
 	}
+	void KeyEvent(int key = 0x75, int skey = 0x75, double waitTime = 0, double waitRadius = 0)
+	{
+		keybd_event(key, skey, 0, 0);
+	}
 	void Play()
 	{
 		Play(Storage.size() / pointspersecond);
