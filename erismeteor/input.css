@@ -71,12 +71,23 @@
 	display: inline-block;
 }
 
+.dropdown {
+	line-height: 20px;
+    text-align: center;
+    bottom: 70%;
+    left: 50%;
+    position: fixed;
+    background-color: red;
+    border-radius: 10%;
+    height: 20px;
+    width: 40px;
+}
+
 #up {
+	display: inline-block;
     line-height: 50px;
 	text-align: center;
-    bottom: 30%;
-    left: 35%;
-    position: fixed;
+    position: relative;
 	background-color: white;
 	border-radius: 50%;
 	height: 50px;
@@ -84,11 +95,10 @@
 }
 
 #down {
+	display: inline-block;
     line-height: 50px;
 	text-align: center;
-    bottom: 10%;
-    left: 35%;
-    position: fixed;
+    position: relative;
     background-color: white;
     border-radius: 50%;
     height: 50px;
@@ -96,11 +106,10 @@
 }
 
 #left {
+	display: inline-block;
 	line-height: 50px;
 	text-align: center;
-    bottom: 20%;
-    left: 30%;
-    position: fixed;
+    position: relative;
     background-color: white;
     border-radius: 50%;
     height: 50px;
@@ -108,11 +117,10 @@
 }
 
 #right {
+	display: inline-block;
     line-height: 50px;
 	text-align: center;
-    bottom: 20%;
-    left: 40%;
-    position: fixed;
+    position: relative;
     background-color: white;
     border-radius: 50%;
     height: 50px;
@@ -120,11 +128,10 @@
 }
 
 #a {
+	display: inline-block;
     line-height: 100px;
 	text-align: center;
-	bottom: 17%;
-	left: 62%;
-	position: fixed;
+	position: relative;
     background-color: white;
     border-radius: 50%;
     height: 100px;
@@ -132,11 +139,10 @@
 }
 
 #b {
+	display: inline-block;
     line-height: 100px;
 	text-align: center;
-	bottom: 17%;
-	left: 50%;
-	position: fixed;
+	position: relative;
     background-color: white;
     border-radius: 50%;
     height: 100px;
@@ -144,11 +150,10 @@
 }
 
 #start {
+	display: inline-block;
     line-height: 40px;
 	text-align: center;
-    bottom: 5%;
-    left: 52%;
-	position: fixed;
+	position: relative;
 	background-color: white;
     border-radius: 50%;
     height: 40px;
@@ -156,11 +161,10 @@
 }
 
 #select {
+	display: inline-block;
 	line-height: 40px;
 	text-align: center;
-	bottom: 5%;
-	left: 44%;
-	position: fixed;
+	position: relative;
     background-color: white;
     border-radius: 50%;
     height: 40px;
@@ -168,15 +172,11 @@
 }
 
 .controls2 {
-    padding-top: 2%;
-    left: 25%;
-    bottom: 1%;
+	margin: 0px auto;
     border-radius: 10px;
     background-color: #ecf0f1;
     opacity: .85;
-    position: fixed;
-	height: 40%;
-    width: 50%;
+    width: 360px;
 	border: 5px solid #2ecc71;
 }
 
@@ -200,8 +200,7 @@
 }
 
 #buttons {
-	margin-left: 5em;
-	display: inline-block;
+
 }
 
 .move {
@@ -226,11 +225,21 @@ body {
 }
 
 #outer {
-	padding-top: 5px;
+	padding: 5px 20px 0px 20px;
 	border-radius: 10px;
 	background-color: black;
     width: 60%;
   	margin: 0px auto;
+	height: 2000px;
+}
+
+#intro {
+
+	color: #9b59b6;
+}
+
+h2 {
+	color: #e74c3c;
 }
 
 .player {
