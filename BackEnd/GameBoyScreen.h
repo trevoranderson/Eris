@@ -12,7 +12,7 @@ public:
 	GameBoyScreen()
 	{
 		//ensure reliable construction
-		screen = new ScreenShot();
+		auto screen = new ScreenShot();
 		auto gbicon = screen->FindBMP(L"images\\visualboy.bmp");
 		auto gbicon2 = screen->FindBMP(L"images\\visualboy2.bmp");
 		gbicon.insert(gbicon2.begin(), gbicon2.end());
@@ -52,14 +52,19 @@ public:
 				}
 				else
 				{
-					pixels[y][x] = 0;
+					pixels[y][x] = 'a';
 				}
 			}
 		}
+		delete screen;
+	}
+	~GameBoyScreen()
+	{
+	//	delete screen;
 	}
 	// Data
 	COORD anchor; // BOTTOM RIGHT OF REFERENCE IMG
-	ScreenShot * screen;
+	//ScreenShot * screen;
 	//Resolution is 144y by 160x [ROW][COLUMN]
 	char pixels[GBHEIGHT][GBWIDTH];
 };

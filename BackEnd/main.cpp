@@ -53,23 +53,51 @@ std::basic_string<wchar_t>findID(int row, int col, std::vector<screenVal> haysta
 
 void updateDifference(GameBoyScreen & fresh, GameBoyScreen & stale, std::vector<screenVal> toSearch)
 {
-	for (int y = 0; y < GBHEIGHT; y += scalefactor)
+	// x and y correspond to the original screen
+	for (int y = 0; y < GBHEIGHT; y += 4)
 	{
-		for (int x = 0; x < GBWIDTH; x += scalefactor)
+		for (int x = 0; x < GBWIDTH; x += 4)
 		{
-
 			if (fresh.pixels[y][x] != stale.pixels[y][x])
 			{
+				// Calculate the DB's version of the coords
+				int scaledX = x / scalefactor;
+				int scaledY = y / scalefactor;
 				//update according to fresh's color
-				auto id = findID(y / scalefactor, x / scalefactor, toSearch);
+				auto id = findID(scaledX, scaledY, toSearch);
 				if (id == L"")
 				{
+					cout << scaledY << "YandX" << scaledX << endl;
 					// TODO Post the new ones to the database
 				}
 				else
 				{
-					putTest(fresh.pixels[y][x], id).wait(); // .wait() ???
+					putTest(fresh.pixels[y][x] - 'a', id);// .wait(); // .wait() ???
 				}
+			}
+		}
+	}
+}
+void updateAll(GameBoyScreen & fresh, std::vector<screenVal> toSearch)
+{
+	// x and y correspond to the original screen
+	for (int y = 0; y < GBHEIGHT; y += 4)
+	{
+		for (int x = 0; x < GBWIDTH; x += 4)
+		{
+			// Calculate the DB's version of the coords
+			int scaledX = x / scalefactor;
+			int scaledY = y / scalefactor;
+			//update according to fresh's color
+			auto id = findID(scaledX , scaledY, toSearch);
+			if (id == L"")
+			{
+				cout << scaledY << "YandX" << scaledX << endl;
+				// TODO Post the new ones to the database
+			}
+			else
+			{
+				putTest(fresh.pixels[y][x] - 'a', id);// .wait(); // .wait() ???
 			}
 		}
 	}
@@ -80,11 +108,14 @@ void client()
 {
 	// Grab a copy of the screen vals so we can have ids to update
 	auto screenvals = parseScreenVals();
-
+	sort(screenvals.begin(), screenvals.end());
 	long long lastTS = 0;
 	auto screen = GameBoyScreen();
+	updateAll(screen, screenvals);
+	int k = 0;
 	while (true)
 	{
+		cout << "loop!"<< k++ << endl;
 		// TODO Get list of new moves and act on most recent ones
 		getTest();
 		vector<inputDB> toMove = parseInputDB();
@@ -94,7 +125,7 @@ void client()
 		{
 			if (k.timestamp > lastTS)
 			{
-				applyMove(k);
+				//applyMove(k);
 				lastTS = k.timestamp;
 			}
 		}
@@ -104,6 +135,7 @@ void client()
 		{
 			updateDifference(newscreen, screen, screenvals);
 			screen = GameBoyScreen();
+			//screenvals = parseScreenVals();
 		}
 	}
 }
@@ -111,9 +143,9 @@ void client()
 int main()
 {
 	//auto screenvals = parseScreenVals();
-	//auto id = findID(0, 0, screenvals);
+	//auto id = findID(4, 4, screenvals);
 	//putTest(2, id);
-
+	Sleep(5000);
 	client();
 	auto s = parseScreenVals();
 	cout << endl << "Posting" << endl;

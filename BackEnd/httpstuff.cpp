@@ -133,12 +133,12 @@ pplx::task<void> HTTPGetAsync()
 		// Display the status code that the server returned
 		std::wostringstream stream;
 		stream << L"Server returned returned status code " << response.status_code() << L'.' << std::endl;
-		std::wcout << stream.str();
+	//	std::wcout << stream.str();
 
 		stream.str(std::wstring());
 		stream << L"Content type: " << response.headers().content_type() << std::endl;
 		stream << L"Content length: " << response.headers().content_length() << L"bytes" << std::endl;
-		std::wcout << stream.str();
+	//	std::wcout << stream.str();
 
 		auto bodyStream = response.body();
 		streams::stringstreambuf sbuffer;
@@ -148,7 +148,7 @@ pplx::task<void> HTTPGetAsync()
 
 		stream.str(std::wstring());
 		stream << L"Response body: " << target.c_str();
-		std::wcout << stream.str();
+	//	std::wcout << stream.str();
 
 		// set global
 		jsonval = target;
@@ -200,12 +200,12 @@ pplx::task<int> postTest(int color, int row, int col)
 			// Display the status code that the server returned
 			std::wostringstream stream;
 			stream << L"Server returned returned status code " << response.status_code() << L'.' << std::endl;
-			std::wcout << stream.str();
+		//	std::wcout << stream.str();
 
 			stream.str(std::wstring());
 			stream << L"Content type: " << response.headers().content_type() << std::endl;
 			stream << L"Content length: " << response.headers().content_length() << L"bytes" << std::endl;
-			std::wcout << stream.str();
+		//	std::wcout << stream.str();
 
 			auto bodyStream = response.body();
 			streams::stringstreambuf sbuffer;
@@ -215,12 +215,12 @@ pplx::task<int> postTest(int color, int row, int col)
 
 			stream.str(std::wstring());
 			stream << L"Response body: " << target.c_str();
-			std::wcout << stream.str();
+		//	std::wcout << stream.str();
 
 			if (response.status_code() == status_codes::OK)
 			{
 				auto body = response.extract_string();
-				std::wcout << L"Added new Id: " << body.get().c_str() << std::endl;
+			//	std::wcout << L"Added new Id: " << body.get().c_str() << std::endl;
 
 				return std::stoi(body.get().c_str());
 			}
@@ -262,8 +262,8 @@ pplx::task<int> putTest(int color, std::basic_string<wchar_t> id)
 		{
 			// Display the status code that the server returned
 			std::wostringstream stream;
-			stream << L"Server returned returned status code " << response.status_code() << L'.' << std::endl;
-			std::wcout << stream.str();
+			//stream << L"Server returned returned status code " << response.status_code() << L'.' << std::endl;
+			//std::wcout << stream.str();
 
 			stream.str(std::wstring());
 			stream << L"Content type: " << response.headers().content_type() << std::endl;
@@ -282,8 +282,8 @@ pplx::task<int> putTest(int color, std::basic_string<wchar_t> id)
 
 			if (response.status_code() == status_codes::OK)
 			{
-				auto body = response.extract_string();
-				std::wcout << L"Added new Id: " << body.get().c_str() << std::endl;
+				//auto body = response.extract_string();
+				//std::wcout << L"Added new Id: " << body.get().c_str() << std::endl;
 
 				return 1;//std::stoi(body.get().c_str());
 			}
@@ -380,10 +380,10 @@ std::vector<inputDB> parseInputDB()// must be preceded by a GET call
 {
 	auto ret = std::vector<inputDB>();
 	json::value x = json::value::parse(utility::conversions::to_string_t(jsonval));
-	std::cout << x.to_string().c_str() << std::endl;
+//	std::cout << x.to_string().c_str() << std::endl;
 	for (auto k = x.as_array().cbegin(); k != x.as_array().cend(); k++)
 	{
-		std::cout << "\tObject" << std::endl;
+	//	std::cout << "\tObject" << std::endl;
 		int move = -1;
 		int movek = -1;
 		long long timestamp = -1;
@@ -459,7 +459,7 @@ std::vector<screenVal> parseScreenVals()// must be preceded by a GET call
 	getScreenTest();
 	auto ret = std::vector<screenVal>();
 	json::value x = json::value::parse(utility::conversions::to_string_t(screenvals));
-	std::cout << x.to_string().c_str() << std::endl;
+	//std::cout << x.to_string().c_str() << std::endl;
 	for (auto k = x.as_array().cbegin(); k != x.as_array().cend(); k++)
 	{
 		screenVal s;
