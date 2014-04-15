@@ -39,17 +39,17 @@ public:
 		BitBlt(memHDC, 0, 0, SCREENWIDTH, SCREENHEIGHT, desktophandle, 0, 0, SRCCOPY);
 		// GetBitmapBits
 		long numBits = SCREENWIDTH*SCREENHEIGHT * 4;
-		lpvBITBUF = new LPVOID;
+	//	lpvBITBUF = new LPVOID;
 		bmpBuffer = (BYTE*)GlobalAlloc(GPTR, SCREENWIDTH*SCREENHEIGHT * 4);
 		GetBitmapBits(Teemo, numBits, bmpBuffer);
-		SaveToFile(Teemo, L"Teemo.bmp");
+		//SaveToFile(Teemo, L"Teemo.bmp");
 	}
 	~ScreenShot()
 	{
 		ReleaseDC(NULL, desktophandle);
 		DeleteDC(memHDC);
 		DeleteObject(Teemo);
-		delete lpvBITBUF;
+	//	delete lpvBITBUF;
 		GlobalFree(bmpBuffer);
 	}
 	std::set<COORD> FindBMP(LPCTSTR testBMP);
@@ -69,6 +69,6 @@ private:
 	HDC desktophandle;
 	HDC memHDC;
 	HBITMAP Teemo;
-	LPVOID lpvBITBUF;
+	//LPVOID lpvBITBUF;
 	BYTE* bmpBuffer;
 };
