@@ -641,3 +641,9 @@ set<COORD> ScreenShot::FindBMP(LPCTSTR testBMP)
 	delete test;
 	return ret;
 }
+
+HBITMAP ScreenShot::bitmapFromBytes(BYTE arr[],int width, int height)
+{
+	auto ret = CreateBitmap(width, height, 1, 32, arr);
+	return ret;
+}

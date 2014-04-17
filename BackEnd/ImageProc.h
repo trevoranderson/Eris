@@ -3,18 +3,21 @@
 #include <iostream>
 #include <Windows.h>
 #include <set>
+#define BYTESPERPIXEL 4
 extern int SCREENWIDTH;
 extern int SCREENHEIGHT;
 
 BOOL SaveToFile(HBITMAP hBitmap, LPCTSTR lpszFileName);
 extern bool operator < (const COORD A, const COORD B);
 
+
 void GetDesktopResolution(int& horizontal, int& vertical);
-struct RGB
+struct RGBA
 {
 	char r;
 	char g;
 	char b;
+	char a;
 };
 class ScreenShot
 {
@@ -39,28 +42,62 @@ public:
 		BitBlt(memHDC, 0, 0, SCREENWIDTH, SCREENHEIGHT, desktophandle, 0, 0, SRCCOPY);
 		// GetBitmapBits
 		long numBits = SCREENWIDTH*SCREENHEIGHT * 4;
-	//	lpvBITBUF = new LPVOID;
+		//	lpvBITBUF = new LPVOID;
 		bmpBuffer = (BYTE*)GlobalAlloc(GPTR, SCREENWIDTH*SCREENHEIGHT * 4);
 		GetBitmapBits(Teemo, numBits, bmpBuffer);
-		//SaveToFile(Teemo, L"Teemo.bmp");
+		SaveToFile(Teemo, L"Teemo.bmp");
+		ReleaseDC(NULL, desktophandle);
+		DeleteDC(memHDC);
 	}
 	~ScreenShot()
 	{
-		ReleaseDC(NULL, desktophandle);
-		DeleteDC(memHDC);
 		DeleteObject(Teemo);
-	//	delete lpvBITBUF;
+		//	delete lpvBITBUF;
 		GlobalFree(bmpBuffer);
 	}
 	std::set<COORD> FindBMP(LPCTSTR testBMP);
-	RGB getPixel(int x, int y)
+	//allocates and returns a byte array of a subBMP
+	BYTE * getBytes(COORD topleft, COORD bottomright)
 	{
-		RGB ret;
+		//w = x + (x % 4);
+		int xx = abs(bottomright.X - topleft.X);
+		int width = xx + (xx % 4); // include padding
+		int height = abs(bottomright.Y - topleft.Y);
+		int area = width * height;
+		BYTE * ret = new BYTE[area * BYTESPERPIXEL];
+		for (int y = 0; y < height; y++)
+		{
+			for (int x = 0; x < width; x++)
+			{
+				if (x < xx)
+				{
+					// copy source into dest
+					auto c = getPixel(topleft.X + x, topleft.Y + y);
+					ret[(y*width + x) * BYTESPERPIXEL + 0] = c.r;
+					ret[(y*width + x) * BYTESPERPIXEL + 1] = c.g;
+					ret[(y*width + x) * BYTESPERPIXEL + 2] = c.b;
+					ret[(y*width + x) * BYTESPERPIXEL + 3] = c.a;
+				}
+				else
+				{
+					ret[(y*width + x) * BYTESPERPIXEL + 0] = 0;
+					ret[(y*width + x) * BYTESPERPIXEL + 1] = 0;
+					ret[(y*width + x) * BYTESPERPIXEL + 2] = 0;
+					ret[(y*width + x) * BYTESPERPIXEL + 3] = 0;
+				}
+			}
+		}
+		return ret;
+	}
+	RGBA getPixel(int x, int y)
+	{
+		RGBA ret;
 		ret.r = bmpBuffer[((y)*SCREENWIDTH + (x)) * 4];
 		ret.g = bmpBuffer[((y)*SCREENWIDTH + (x)) * 4 + 1];
 		ret.b = bmpBuffer[((y)*SCREENWIDTH + (x)) * 4 + 2];
 		return ret;
 	}
+	HBITMAP bitmapFromBytes(BYTE arr[], int width, int height);
 private:
 	//Methods
 

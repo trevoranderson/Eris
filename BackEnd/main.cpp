@@ -139,9 +139,23 @@ void client()
 		}
 	}
 }
-
+void testbmp()
+{
+	ScreenShot mundo;
+	COORD topleft;
+	topleft.X = 50;
+	topleft.Y = 50;
+	COORD bottomright;
+	bottomright.X = 250;
+	bottomright.Y = 250;
+	auto bytes = mundo.getBytes(topleft, bottomright);
+	auto bmp = mundo.bitmapFromBytes(bytes,200,200);
+	SaveToFile(bmp, L"grapes.bmp");
+}
 int main()
 {
+	testbmp();
+	return 0;
 	//auto screenvals = parseScreenVals();
 	//auto id = findID(4, 4, screenvals);
 	//putTest(2, id);
