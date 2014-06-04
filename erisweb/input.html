@@ -1,0 +1,68 @@
+<head>
+  <title>Leaderboard</title>
+</head>
+
+<body>
+  <div id="outer">
+   	<div id="Name">
+		<h1 id="title">ERIS</h1>
+  	</div>
+	<div id="stream">{{> renderimage}} </div>
+	<div id="game" class="gameboard"></div>
+	<div id="buttons"><p>{{> outputinput}}</p></div> 
+    
+	<div id="overlay"><p>{{> displayoverlay}}</p></div>
+	<div><h2>Welcome to ERIS</h2><p id="intro">Grab a friend, get some snacks, and prepare <br> for an experience that you have never experienced before.<br> Here at ERIS we believe in providing players with an enjoyable <br> experience through amazing graphics and epic game play.</p></div>
+  </div>
+</body>
+
+<template name="renderimage">
+	<div>
+		{{render}}
+	</div>	
+</template>
+
+<template name="outputinput">
+	<div class="controls2">
+		<div id="up">U</div>
+		<div id="down">D</div>
+		<div id="right">R</div>
+		<div id="left">L</div>
+		<div id="start">ST</div>
+		<div id="select">SEL</div>
+		<div id="a">A</div>
+		<div id="b">B</div>
+	</div>
+</template>
+<template name="displayoverlay">
+	<div class="inputArea">
+		{{#each latest}}
+			 <span class="move">{{move}}</span>
+		{{/each}}
+	</div>
+</template>
+
+<template name="leaderboard">
+  <div class="leaderboard">
+	{{#each players}}
+      {{> player}}
+    {{/each}}
+  </div>
+
+  {{#if selected_name}}
+  <div class="details">
+    <div class="name">{{selected_name}}</div>
+    <input type="button" class="inc" value="Give 5 points" />
+  </div>
+  {{else}}
+  <div class="none">Click a player to select</div>
+  {{/if}}
+</template>
+
+<template name="player">
+  <div class="player {{selected}}">
+    <span class="name">{{name}}</span>
+    <span class="score">{{score}}</span>
+  </div>
+</template>
+
