@@ -57,12 +57,27 @@ public:
 	}
 	std::set<COORD> FindBMP(LPCTSTR testBMP);
 	//allocates and returns a byte array of a subBMP
-	BYTE * getBytes(COORD topleft, COORD bottomright)
+
+	RGBA getPixel(int x, int y)
+	{
+		RGBA ret;
+		ret.r = bmpBuffer[((y)*SCREENWIDTH + (x)) * 4];
+		ret.g = bmpBuffer[((y)*SCREENWIDTH + (x)) * 4 + 1];
+		ret.b = bmpBuffer[((y)*SCREENWIDTH + (x)) * 4 + 2];
+		return ret;
+	}
+	HBITMAP getSubBMP(int ulx, int uly, int brx, int bry)
+	{
+		return bitmapFromBytes(getBytes(ulx, uly, brx, bry), abs(brx - ulx), abs(bry - uly));
+	}
+private:
+	//Methods
+	BYTE * getBytes(int ulx, int uly, int brx, int bry)
 	{
 		//w = x + (x % 4);
-		int xx = abs(bottomright.X - topleft.X);
+		int xx = abs(brx - ulx);
 		int width = xx + (xx % 4); // include padding
-		int height = abs(bottomright.Y - topleft.Y);
+		int height = abs(bry - uly);
 		int area = width * height;
 		BYTE * ret = new BYTE[area * BYTESPERPIXEL];
 		for (int y = 0; y < height; y++)
@@ -72,7 +87,7 @@ public:
 				if (x < xx)
 				{
 					// copy source into dest
-					auto c = getPixel(topleft.X + x, topleft.Y + y);
+					auto c = getPixel(ulx + x, uly + y);
 					ret[(y*width + x) * BYTESPERPIXEL + 0] = c.r;
 					ret[(y*width + x) * BYTESPERPIXEL + 1] = c.g;
 					ret[(y*width + x) * BYTESPERPIXEL + 2] = c.b;
@@ -89,19 +104,7 @@ public:
 		}
 		return ret;
 	}
-	RGBA getPixel(int x, int y)
-	{
-		RGBA ret;
-		ret.r = bmpBuffer[((y)*SCREENWIDTH + (x)) * 4];
-		ret.g = bmpBuffer[((y)*SCREENWIDTH + (x)) * 4 + 1];
-		ret.b = bmpBuffer[((y)*SCREENWIDTH + (x)) * 4 + 2];
-		return ret;
-	}
 	HBITMAP bitmapFromBytes(BYTE arr[], int width, int height);
-private:
-	//Methods
-
-
 	//Guts
 	HDC desktophandle;
 	HDC memHDC;

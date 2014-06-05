@@ -27,6 +27,9 @@ public:
 		}
 		anchor.X = gbicon.begin()->X;
 		anchor.Y = gbicon.begin()->Y;
+		int startX = anchor.X + XOFFSET;
+		int startY = anchor.Y + YOFFSET;
+		image = screen->getSubBMP(startX, startY, startX + GBWIDTH, startY + GBHEIGHT);
 		//Actual pixels are offset from the reference img by -6 and 53 pixels
 		for (int y = 0; y < GBHEIGHT; y++)
 		{
@@ -63,9 +66,11 @@ public:
 	//	delete screen;
 	}
 	// Data
+	// put this to server
+	HBITMAP image;
 	COORD anchor; // BOTTOM RIGHT OF REFERENCE IMG
 	//ScreenShot * screen;
-	//Resolution is 144y by 160x [ROW][COLUMN]
+	//Resolution is 144y by 160x [ROW][COLUMN] : USED FOR DETECTING DIFFERENCE
 	char pixels[GBHEIGHT][GBWIDTH];
 };
 

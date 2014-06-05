@@ -174,7 +174,7 @@ public:
 	void KeyEvent(int key = 0x75, int skey = 0x75, double waitTime = 0, double waitRadius = 0)
 	{
 		keybd_event(key, skey, 0, 0);
-		Sleep(100);
+		Sleep(5);
 		keybd_event(key, skey, KEYEVENTF_KEYUP, 0);
 	}
 	void Play()

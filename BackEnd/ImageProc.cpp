@@ -647,3 +647,11 @@ HBITMAP ScreenShot::bitmapFromBytes(BYTE arr[],int width, int height)
 	auto ret = CreateBitmap(width, height, 1, 32, arr);
 	return ret;
 }
+
+BYTE * hbitmapToBytes(HBITMAP input)
+{
+	char* pImage = NULL;
+	HANDLE hImage = input;
+	pImage = (char *)GlobalLock(hImage);
+	return (BYTE *)pImage;
+}
