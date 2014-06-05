@@ -64,8 +64,8 @@ Meteor.methods({
 	}
 });
 
-if (Meteor.isClient) {
-	
+if (Meteor.isClient) {	
+
 	Template.displayoverlay.latest = function() {
 		return LatestInputs.find({}, {sort: {time: 1, move: -1}});
 	};
@@ -121,18 +121,23 @@ if (Meteor.isClient) {
           });
       }
 	});
-
-    Template.renderimage.render = function() {
-		var img = document.createElement('img');
-		Meteor.call("queryStream", function(error,result){
-    		if(error){
-    		}
-    		else{
-        		img.src = result;
-    		}
-		}); 
-    	document.body.appendChild(img);
-  };
+	
+	Template.renderimage.helpers({
+  		screen: function(){ return Screen.findOne(); }
+	});	
+	//Template.renderimage.render = function() {
+		//var img = document.createElement('img');
+		//var temp = Screen.find({});
+	//	Meteor.call("queryStream", function(error,result){
+    //		if(error){
+    //		}
+    //		else{
+        		//img.src = result;
+				//document.getElementById('game').appendChild(img);
+    //			document.getElementById("picture").src = result;
+	//		}
+	//	}); 
+  //};
 
   Template.renderboard.pixel = function () {
  	return Screen.find({}, {sort:{col: 1, row: 1}});
@@ -191,7 +196,7 @@ if (Meteor.isServer) {
    	 }
   	}
 		if (Screen.find().count() === 0) {
-			Screen.insert({bmp: "R0lGODlhEAAOALMAAOazToeHh0tLS/7LZv/0jvb29t/f3//Ub//ge8WSLf/rhf/3kdbW1mxsbP//mf///yH5BAAAAAAALAAAAAAQAA4AAARe8L1Ekyky67QZ1hLnjM5UUde0ECwLJoExKcppV0aCcGCmTIHEIUEqjgaORCMxIC6e0CcguWw6aFjsVMkkIr7g77ZKPJjPZqIyd7sJAgVGoEGv2xsBxqNgYPj/gAwXEQA7"});
+			Screen.insert({bmp: "data:image/bmp;base64,R0lGODlhEAAOALMAAOazToeHh0tLS/7LZv/0jvb29t/f3//Ub//ge8WSLf/rhf/3kdbW1mxsbP//mf///yH5BAAAAAAALAAAAAAQAA4AAARe8L1Ekyky67QZ1hLnjM5UUde0ECwLJoExKcppV0aCcGCmTIHEIUEqjgaORCMxIC6e0CcguWw6aFjsVMkkIr7g77ZKPJjPZqIyd7sJAgVGoEGv2xsBxqNgYPj/gAwXEQA7"});
  		}
 		if (Players.find().count() === 0) {
  	     var names = ["Ada Lovelace",
