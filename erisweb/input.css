@@ -57,9 +57,9 @@
 
 .gameboard {
 	font-size: 5px;
-	margin: 4em auto;
-	width: 162px;
-	height: 146px;
+	margin: 1em auto;
+	width: 320px;
+	height: 288px;
 	border-radius: 5px;
 	background-color: black;
 	border: 5px solid #2ecc71;
@@ -90,8 +90,8 @@
     position: relative;
 	background-color: white;
 	border-radius: 50%;
-	height: 50px;
-	width: 50px;
+	height: 60px;
+	width: 60px;
 }
 
 #down {
@@ -101,8 +101,8 @@
     position: relative;
     background-color: white;
     border-radius: 50%;
-    height: 50px;
-    width: 50px;
+    height: 60px;
+    width: 60px;
 }
 
 #left {
@@ -112,8 +112,8 @@
     position: relative;
     background-color: white;
     border-radius: 50%;
-    height: 50px;
-    width: 50px;
+    height: 60px;
+    width: 60px;
 }
 
 #right {
@@ -123,8 +123,8 @@
     position: relative;
     background-color: white;
     border-radius: 50%;
-    height: 50px;
-    width: 50px;
+    height: 60px;
+    width: 60px;
 }
 
 #a {
@@ -150,14 +150,15 @@
 }
 
 #start {
+	margin: 0px 0px 0px 2.5em;
 	display: inline-block;
     line-height: 40px;
 	text-align: center;
 	position: relative;
 	background-color: white;
     border-radius: 50%;
-    height: 40px;
-    width: 40px;
+    height: 60px;
+    width: 60px;
 }
 
 #select {
@@ -167,11 +168,29 @@
 	position: relative;
     background-color: white;
     border-radius: 50%;
-    height: 40px;
-    width: 40px;
+    height: 60px;
+    width: 60px;
+}
+
+#arrows {
+	margin: 0px 0px 0px 1em;
+	display: inline-block;
+	width: 150px;
+}
+
+#othercontrol {
+	margin: 0.5em 0em 0.5em 0em;
+	display: inline-block;
+	width: 220px; 
+}
+
+#picture {
+	height: 288px; 
+	width:	320px;
 }
 
 #fakeButton {
+	margin: 1em auto;
 	text-align: center;
 	border-radius:10px;
 	background-color: #ecf0f1;
@@ -186,7 +205,7 @@
     border-radius: 10px;
     background-color: #ecf0f1;
     opacity: .85;
-    width: 360px;
+    width: 400px;
 	border: 5px solid #2ecc71;
 }
 
@@ -240,7 +259,7 @@ body {
 	background-color: black;
     width: 60%;
   	margin: 0px auto;
-	height: 600px;
+	height: 800px;
 }
 
 #intro {

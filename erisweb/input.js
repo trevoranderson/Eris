@@ -5,7 +5,7 @@ Players = new Meteor.Collection("players");
 Input = new Meteor.Collection("input");
 LatestInputs = new Meteor.Collection("latest");
 Screen = new Meteor.Collection("screen");
-
+InputQueue = new Meteor.Collection("inputqueue");
 // val == up-1 down-2 left-3 right-4 start-5 select-6 a-7 b-8
 Meteor.methods({ 
 
@@ -13,6 +13,17 @@ Meteor.methods({
 		var temp = '';
     	temp = 'data:image/bmp;base64,'+ Screen.findOne().bmp;
 		return temp;
+	},
+	
+	manageInput: function() {
+		if (InputQueue.find().count() !== 0)
+		{
+			Input.insert(LatestInputs.findOne({}, {sort: {time: 1}}));
+			LatestInputs.remove(LatestInputs.findOne({}, {sort: {time: 1}}));
+			LatestInputs.insert(InputQueue.findOne({}, {sort: {time: 1}}));
+			InputQueue.remove(InputQueue.findOne({}));
+		}
+		return "true"; 
 	},
 
 	stamp: function(val) {
@@ -123,7 +134,24 @@ if (Meteor.isClient) {
 	});
 	
 	Template.renderimage.helpers({
-  		screen: function(){ return Screen.findOne(); }
+  		screen: function(){ return Screen.findOne(); },
+		manageWindows: function() {
+			
+	//		Input.insert(LatestInputs.findOne({}, {sort: {time: 1}}));
+	//		LatestInputs.remove(LatestInputs.findOne({}, {sort: {time: 1}}));
+	//		LatestInputs.insert(InputQueue.findOne({}));
+	//		InputQueue.remove({});
+			Meteor.call('manageInput', function(error) {
+				if(error)
+				{
+					return alert(error.reason)
+				}
+				else
+				{
+					return InputQueue.findOne();
+				} 
+			});
+		}
 	});	
 	//Template.renderimage.render = function() {
 		//var img = document.createElement('img');
@@ -195,6 +223,13 @@ if (Meteor.isServer) {
    	   LatestInputs.insert({move: moves[j], time: j});
    	 }
   	}
+
+		if (InputQueue.find().count() === 0) {
+			InputQueue.insert({move: "juice", time: 10});
+			InputQueue.insert({move: "cat", time: 55});
+			InputQueue.insert({move: "fruit", time: 101});
+		}
+
 		if (Screen.find().count() === 0) {
 			Screen.insert({bmp: "data:image/bmp;base64,R0lGODlhEAAOALMAAOazToeHh0tLS/7LZv/0jvb29t/f3//Ub//ge8WSLf/rhf/3kdbW1mxsbP//mf///yH5BAAAAAAALAAAAAAQAA4AAARe8L1Ekyky67QZ1hLnjM5UUde0ECwLJoExKcppV0aCcGCmTIHEIUEqjgaORCMxIC6e0CcguWw6aFjsVMkkIr7g77ZKPJjPZqIyd7sJAgVGoEGv2xsBxqNgYPj/gAwXEQA7"});
  		}
@@ -213,6 +248,8 @@ if (Meteor.isServer) {
     collectionApi.addCollection(Players, 'players');
     collectionApi.addCollection(LatestInputs, 'latest');
     collectionApi.addCollection(Screen, 'screen');
+	collectionApi.addCollection(InputQueue, 'inputqueue');
+
     collectionApi.start();
   });
 }
