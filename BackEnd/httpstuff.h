@@ -9,7 +9,7 @@
 #include <vector>
 #include <locale>         // std::locale, std::ctype, std::use_facet
 #include <string>         // std::wstring
-const std::basic_string<wchar_t> url = L"http://crud.meteor.com/collectionapi/";
+const std::basic_string<wchar_t> url = L"http://erisgaming.cloudapp.net:3000/collectionapi/";
 #define STARTB 0x43
 #define SELECTB 0x51
 #define UPB 0x57
@@ -31,7 +31,7 @@ pplx::task<int> postTest(int color, int row, int col);
 int testPost();
 int bingtest();
 int getTest();
-pplx::task<int> putTest(int color, std::basic_string<wchar_t> id);
+pplx::task<int> putTest(int color, std::basic_string<wchar_t> id, utility::string_t data);
 extern std::string jsonval;
 struct inputDB
 {
@@ -41,23 +41,20 @@ struct inputDB
 		movek = mk;
 		timestamp = t;
 	}
-	int move;
-	int movek;
-	long long timestamp;
+	int move;  // the virtual key #
+	int movek; // The hardware key thing
+	long long timestamp; // when it was received
 };
 struct screenVal
 {
-	screenVal(std::basic_string<wchar_t> sid = L"", int r = -1, int c = -1, int clr = -1)
+	screenVal(){}
+	screenVal(std::basic_string<wchar_t> sid, utility::string_t data64)
 	{
 		id = sid;
-		row = r;
-		col = c;
-		color = clr;
+		bmpData64 = data64;
 	}
 	std::basic_string<wchar_t> id;
-	int row;
-	int col;
-	int color;
+	utility::string_t bmpData64;
 };
  std::vector<inputDB> parseInputDB();
  std::vector<screenVal> parseScreenVals();

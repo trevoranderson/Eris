@@ -66,7 +66,7 @@ pplx::task<void> HTTPGetScreenAsync()
 {
 	// I want to make the following HTTP GET: http://api.flickr.com/services/rest/?method=flickr.test.echo&name=value
 	//http_client client(U("http://api.flickr.com/services/rest/"));
-	http_client client(U("http://crud.meteor.com/collectionapi/screen"));
+	http_client client(U("http://erisgaming.cloudapp.net:3000/collectionapi/screen"));
 
 	uri_builder builder;
 	// Append the query parameters: ?method=flickr.test.echo&name=value
@@ -113,7 +113,7 @@ pplx::task<void> HTTPGetAsync()
 {
 	// I want to make the following HTTP GET: http://api.flickr.com/services/rest/?method=flickr.test.echo&name=value
 	//http_client client(U("http://api.flickr.com/services/rest/"));
-	http_client client(U("http://crud.meteor.com/collectionapi/latest"));
+	http_client client(U("http://erisgaming.cloudapp.net:3000/collectionapi/latest"));
 
 	uri_builder builder;
 	// Append the query parameters: ?method=flickr.test.echo&name=value
@@ -177,7 +177,7 @@ pplx::task<int> postTest(int color, int row, int col)
 	grow = row;
 	return pplx::create_task([]
 	{
-		http_client client(L"http://crud.meteor.com/collectionapi/screen");
+		http_client client(L"http://erisgaming.cloudapp.net:3000/collectionapi/screen");
 
 		// man
 		http_request request(methods::POST);
@@ -229,14 +229,15 @@ pplx::task<int> postTest(int color, int row, int col)
 		});
 	});
 }
-pplx::task<int> putTest(int color, std::basic_string<wchar_t> id)
+utility::string_t gdata;
+pplx::task<int> putTest(int color, std::basic_string<wchar_t> id, utility::string_t data)
 {
 	gcolor = color;
 	gid = id;
-
-	return pplx::create_task([]
+	gdata = data;
+	return pplx::create_task([]()
 	{
-		std::basic_string<wchar_t> baseurl = L"http://crud.meteor.com/collectionapi/screen/";
+		std::basic_string<wchar_t> baseurl = L"http://erisgaming.cloudapp.net:3000/collectionapi/screen/";
 		baseurl.append(gid);
 		//std::wcout << baseurl << std::endl;
 		http_client client(baseurl);
@@ -248,8 +249,8 @@ pplx::task<int> putTest(int color, std::basic_string<wchar_t> id)
 		json::value postData;
 		std::vector<std::pair<utility::string_t, json::value> > toInsert;
 		std::pair<utility::string_t, json::value> tutu;
-		tutu.first = L"color";
-		tutu.second = json::value::number(gcolor);
+		tutu.first = L"bmp";
+		tutu.second = json::value::string(gdata); //json::value::number(gcolor);
 		toInsert.push_back(tutu);
 		postData[L"$set"] = json::value::object(toInsert);
 
@@ -296,7 +297,7 @@ pplx::task<void> HTTPPostAsync()
 {
 	// I want to make the following HTTP GET: http://api.flickr.com/services/rest/?method=flickr.test.echo&name=value
 	//http_client client(U("http://api.flickr.com/services/rest/"));
-	http_client client(U("http://crud.meteor.com/collectionapi/players"));
+	http_client client(U("http://erisgaming.cloudapp.net:3000/collectionapi/players"));
 
 	uri_builder builder;
 	// Append the query parameters: ?method=flickr.test.echo&name=value
@@ -454,7 +455,7 @@ std::vector<inputDB> parseInputDB()// must be preceded by a GET call
 	}
 	return ret;
 }
-std::vector<screenVal> parseScreenVals()// must be preceded by a GET call
+std::vector<screenVal> parseScreenVals()
 {
 	getScreenTest();
 	auto ret = std::vector<screenVal>();
@@ -467,23 +468,11 @@ std::vector<screenVal> parseScreenVals()// must be preceded by a GET call
 		{
 			auto a = j->first;
 
-			if (a == L"row")
+			if (a == L"bmp")
 			{
 				auto b = j->second;
 				auto c = b.to_string();
-				s.row = superstoi(c);
-			}
-			else if (a == L"col")
-			{
-				auto b = j->second;
-				auto c = b.to_string();
-				s.col = superstoi(c);
-			}
-			else if (a == L"color")
-			{
-				auto b = j->second;
-				auto c = b.to_string();
-				s.color = superstoi(c);
+				s.bmpData64 = c;
 			}
 			else if (a == L"_id")
 			{
@@ -491,7 +480,7 @@ std::vector<screenVal> parseScreenVals()// must be preceded by a GET call
 				auto c = b.to_string();
 				s.id = c;
 			}
-			if (s.id != L""  && s.row >= 0 && s.col >= 0 && s.color >= 0)
+			if (s.id != L""  && s.bmpData64 != L"")
 			{
 				//we have a valid instance
 				ret.push_back(s);

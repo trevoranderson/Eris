@@ -5,52 +5,118 @@
 #include "httpstuff.h"
 #include <vector>
 #include <algorithm>
-
+#include <thread>
 
 using namespace std;
+
+static const std::string base64_chars =
+"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+"abcdefghijklmnopqrstuvwxyz"
+"0123456789+/";
+
+
+static inline bool is_base64(unsigned char c) {
+	return (isalnum(c) || (c == '+') || (c == '/'));
+}
+utility::string_t base64_encode(unsigned char const* bytes_to_encode, unsigned int in_len) {
+	utility::string_t ret;
+	int i = 0;
+	int j = 0;
+	unsigned char char_array_3[3];
+	unsigned char char_array_4[4];
+
+	while (in_len--) {
+		char_array_3[i++] = *(bytes_to_encode++);
+		if (i == 3) {
+			char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
+			char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
+			char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
+			char_array_4[3] = char_array_3[2] & 0x3f;
+
+			for (i = 0; (i <4); i++)
+				ret += base64_chars[char_array_4[i]];
+			i = 0;
+		}
+	}
+
+	if (i)
+	{
+		for (j = i; j < 3; j++)
+			char_array_3[j] = '\0';
+
+		char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
+		char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
+		char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
+		char_array_4[3] = char_array_3[2] & 0x3f;
+
+		for (j = 0; (j < i + 1); j++)
+			ret += base64_chars[char_array_4[j]];
+
+		while ((i++ < 3))
+			ret += '=';
+
+	}
+
+	return ret;
+
+}
+std::string base64_decode(std::string const& encoded_string) {
+	int in_len = encoded_string.size();
+	int i = 0;
+	int j = 0;
+	int in_ = 0;
+	unsigned char char_array_4[4], char_array_3[3];
+	std::string ret;
+
+	while (in_len-- && (encoded_string[in_] != '=') && is_base64(encoded_string[in_])) {
+		char_array_4[i++] = encoded_string[in_]; in_++;
+		if (i == 4) {
+			for (i = 0; i <4; i++)
+				char_array_4[i] = base64_chars.find(char_array_4[i]);
+
+			char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
+			char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
+			char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
+
+			for (i = 0; (i < 3); i++)
+				ret += char_array_3[i];
+			i = 0;
+		}
+	}
+
+	if (i) {
+		for (j = i; j <4; j++)
+			char_array_4[j] = 0;
+
+		for (j = 0; j <4; j++)
+			char_array_4[j] = base64_chars.find(char_array_4[j]);
+
+		char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
+		char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
+		char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
+
+		for (j = 0; (j < i - 1); j++) ret += char_array_3[j];
+	}
+
+	return ret;
+}
 bool operator <(inputDB A, inputDB B)
 {
 	return (A.timestamp < B.timestamp);
 }
 bool operator <(screenVal A, screenVal B)
 {
-	if (A.row < B.row)
-	{
-		return true;
-	}
-	if (B.row < A.row)
-	{
-		return false;
-	}
-	if (A.col < B.col)
-	{
-		return true;
-	}
 	return false;
 }
 bool operator ==(screenVal A, screenVal B)
 {
-	return A.row == B.row && A.col == B.col;
+	return A.bmpData64 == B.bmpData64;
 }
 void applyMove(inputDB k)
 {
 	MouseMovement cur;
 	cur.KeyEvent(k.move, k.movek);
-	Sleep(500);
 }
-// Looks up the id in the vector
-std::basic_string<wchar_t>findID(int row, int col, std::vector<screenVal> haystack)
-{
-	for (auto k : haystack)
-	{
-		if (k.row == row && k.col == col)
-		{
-			return k.id.substr(1, k.id.size() - 2); // cut off escape chars
-		}
-	}
-	return L"";
-}
-
 void updateDifference(GameBoyScreen & fresh, GameBoyScreen & stale, std::vector<screenVal> toSearch)
 {
 	// x and y correspond to the original screen
@@ -64,7 +130,7 @@ void updateDifference(GameBoyScreen & fresh, GameBoyScreen & stale, std::vector<
 				int scaledX = x / scalefactor;
 				int scaledY = y / scalefactor;
 				//update according to fresh's color
-				auto id = findID(scaledX, scaledY, toSearch);
+				auto id = L"no";// findID(scaledX, scaledY, toSearch);
 				if (id == L"")
 				{
 					cout << scaledY << "YandX" << scaledX << endl;
@@ -72,7 +138,7 @@ void updateDifference(GameBoyScreen & fresh, GameBoyScreen & stale, std::vector<
 				}
 				else
 				{
-					putTest(fresh.pixels[y][x] - 'a', id);// .wait(); // .wait() ???
+				//	putTest(fresh.pixels[y][x] - 'a', id);// .wait(); // .wait() ???
 				}
 			}
 		}
@@ -89,7 +155,7 @@ void updateAll(GameBoyScreen & fresh, std::vector<screenVal> toSearch)
 			int scaledX = x / scalefactor;
 			int scaledY = y / scalefactor;
 			//update according to fresh's color
-			auto id = findID(scaledX , scaledY, toSearch);
+			auto id = L"no";// findID(scaledX, scaledY, toSearch);
 			if (id == L"")
 			{
 				cout << scaledY << "YandX" << scaledX << endl;
@@ -97,25 +163,34 @@ void updateAll(GameBoyScreen & fresh, std::vector<screenVal> toSearch)
 			}
 			else
 			{
-				putTest(fresh.pixels[y][x] - 'a', id);// .wait(); // .wait() ???
+			//	putTest(fresh.pixels[y][x] - 'a', id);// .wait(); // .wait() ???
 			}
 		}
 	}
 
 }
-// this function never exits
-void client()
+std::vector<BYTE> readFileBytes(std::string filename)
 {
-	// Grab a copy of the screen vals so we can have ids to update
-	auto screenvals = parseScreenVals();
-	sort(screenvals.begin(), screenvals.end());
+	// open the file:
+	std::streampos fileSize;
+	std::ifstream file(filename, std::ios::binary);
+
+	// get its size:
+	file.seekg(0, std::ios::end);
+	fileSize = file.tellg();
+	file.seekg(0, std::ios::beg);
+
+	// read the data:
+	std::vector<BYTE> fileData(fileSize);
+	file.read((char*)&fileData[0], fileSize);
+	return fileData;
+}
+// Command loop
+void commandLoop()
+{
 	long long lastTS = 0;
-	auto screen = GameBoyScreen();
-	updateAll(screen, screenvals);
-	int k = 0;
 	while (true)
 	{
-		cout << "loop!"<< k++ << endl;
 		// TODO Get list of new moves and act on most recent ones
 		getTest();
 		vector<inputDB> toMove = parseInputDB();
@@ -125,40 +200,82 @@ void client()
 		{
 			if (k.timestamp > lastTS)
 			{
-				//applyMove(k);
+				applyMove(k);
 				lastTS = k.timestamp;
 			}
 		}
-
+	}
+}
+// Screen Grab Loop
+void screenGrabLoop()
+{
+	auto asdf = parseScreenVals();
+	int loopcounter = 0;
+	while (1)
+	{
+		cout << loopcounter << endl;
+		GameBoyScreen teemo;
+		auto x = sizeof(teemo.image);
+		SaveToFile(teemo.image, L"images\\gameboy.bmp");
+		// Now read it
+		auto contents = readFileBytes("images\\gameboy.bmp");
+		auto str = base64_encode(&contents[0], contents.size());
+		//std::basic_string<wchar_t> toSend(L"data:image/bmp;base64,");
+		str = L"data:image/bmp;base64," + str;
+		//"data:image/bmp;base64,"
+		auto ID = asdf[0].id.substr(1, asdf[0].id.size() - 2); // cut off escape chars
+		putTest(0, ID, str);
+		Sleep(100);
+		loopcounter++;
+	}
+}
+// this function never exits
+void client()
+{
+	//thread inputCreator(commandLoop);
+	thread screenUpdater(screenGrabLoop);
+	while (1){}
+	// Grab a copy of the screen vals so we can have ids to update
+	auto screenvals = parseScreenVals();
+	sort(screenvals.begin(), screenvals.end());
+	long long lastTS = 0;
+	auto screen = GameBoyScreen();
+	updateAll(screen, screenvals);
+	int k = 0;
+	while (true)
+	{
+		cout << "loop!" << k++ << endl;
 		auto newscreen = GameBoyScreen(); // reset gameboyscreen
 		if (newscreen != screen)
 		{
 			updateDifference(newscreen, screen, screenvals);
 			screen = GameBoyScreen();
-			//screenvals = parseScreenVals();
+			screenvals = parseScreenVals();
 		}
 	}
 }
+
 void testbmp()
 {
-	ScreenShot mundo;
-	COORD topleft;
-	topleft.X = 50;
-	topleft.Y = 50;
-	COORD bottomright;
-	bottomright.X = 250;
-	bottomright.Y = 250;
-	auto bytes = mundo.getBytes(topleft, bottomright);
-	auto bmp = mundo.bitmapFromBytes(bytes,200,200);
-	SaveToFile(bmp, L"grapes.bmp");
+	auto asdf = parseScreenVals();
+	/*ScreenShot mundo;
+	SaveToFile(mundo.getSubBMP(50,50,450,450), L"grapes.bmp");*/
+ 	GameBoyScreen teemo;
+	auto x = sizeof(teemo.image);
+	SaveToFile(teemo.image, L"images\\gameboy.bmp");
+	// Now read it
+	auto contents = readFileBytes("images\\gameboy.bmp");
+	auto str = base64_encode(&contents[0], contents.size());
+	auto ID = asdf[0].id.substr(1, asdf[0].id.size() - 2); // cut off escape chars
+	putTest(0, ID, str);
+	cout << "sup" << endl;
 }
 int main()
 {
+	client();
+	while (1){}
 	testbmp();
-	return 0;
-	//auto screenvals = parseScreenVals();
-	//auto id = findID(4, 4, screenvals);
-	//putTest(2, id);
+	//return 0;
 	Sleep(5000);
 	client();
 	auto s = parseScreenVals();
