@@ -1,0 +1,29 @@
+﻿<Page
+    x:Class="windowseris.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:windowseris"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Rectangle Fill="#FF29802D" HorizontalAlignment="Left" Height="748" Margin="10,10,0,0" Stroke="Black" VerticalAlignment="Top" Width="532"/>
+
+        <Rectangle Fill="#FF56D85C" HorizontalAlignment="Left" Height="232" Margin="10,450,0,0" Stroke="Black" VerticalAlignment="Top" Width="532"/>
+
+        <Button Content="LEFT" HorizontalAlignment="Left" Margin="37,532,0,0" VerticalAlignment="Top" Click="left_input" Width="87" Height="51" Foreground="#FF043006" BorderBrush="#FF043006" BorderThickness="4" FontWeight="Bold"/>
+        <Button Content="UP" HorizontalAlignment="Left" Margin="117,461,0,0" VerticalAlignment="Top" Width="87" Click="up_input" Height="51" BorderBrush="#FF043006" Foreground="#FF043006" FontWeight="Bold" BorderThickness="4"/>
+        <Button Content="RIGHT" HorizontalAlignment="Left" Margin="198,532,0,0" VerticalAlignment="Top" Click="right_input" Height="51" Width="87" Foreground="#FF043006" BorderBrush="#FF043006" BorderThickness="4" FontWeight="Bold"/>
+        <Button Content="DOWN" HorizontalAlignment="Left" Margin="117,595,0,0" VerticalAlignment="Top" Click="down_input" Width="87" Height="47" BorderBrush="#FF043006" Foreground="#FF043006" BorderThickness="4" FontWeight="Bold"/>
+        <Button Content="START" HorizontalAlignment="Left" Margin="304,629,0,0" VerticalAlignment="Top" Click="start_input" Width="86" BorderBrush="#FF043006" Foreground="#FF043006" BorderThickness="4" FontWeight="Bold"/>
+        <Button Content="B" HorizontalAlignment="Left" Margin="304,468,0,0" VerticalAlignment="Top" Click="b_input" Height="86" Width="86" BorderBrush="#FF043006" Foreground="#FF043006" BorderThickness="4" FontWeight="Bold"/>
+        <Button Content="A" HorizontalAlignment="Left" Margin="421,472,0,0" VerticalAlignment="Top" Click="a_input" Height="82" Width="84" BorderBrush="#FF043006" Foreground="#FF043006" BorderThickness="4" FontWeight="Bold"/>
+        <Button Content="SELECT" HorizontalAlignment="Left" Margin="304,577,0,0" VerticalAlignment="Top" Click="select_input" Width="86" Foreground="#FF043006" BorderBrush="#FF043006" BorderThickness="4" FontWeight="Bold"/>
+        <Rectangle Fill="#FF043006" HorizontalAlignment="Left" Height="395" Margin="44,40,0,0" Stroke="Black" VerticalAlignment="Top" Width="462"/>
+        <Image x:Name="GameScreen" HorizontalAlignment="Left" Height="336" Margin="87,68,0,0" VerticalAlignment="Top" Width="373"/>
+        <Rectangle Fill="#FF043006" HorizontalAlignment="Left" Height="0" Margin="521,580,0,0" Stroke="Black" VerticalAlignment="Top" Width="4"/>
+        <TextBlock HorizontalAlignment="Left" Height="76" Margin="32,682,0,0" TextWrapping="Wrap" Text="ERIS" VerticalAlignment="Top" Width="250" Foreground="Black" FontWeight="Bold" FontSize="86"/>
+
+    </Grid>
+</Page>

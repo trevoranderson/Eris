@@ -6,6 +6,28 @@
 #include "Point.h"
 #include "Mat2.h"
 #define DISTLENGTH 10000
+
+void quickClick(Point location)
+{
+
+	POINT p;
+	POINT * curserpos = &p;
+	GetCursorPos(curserpos);
+
+	SetCursorPos(location.x, location.y);
+
+	INPUT input;
+	input.type = INPUT_MOUSE;
+	input.mi.dx = location.x;
+	input.mi.dy = location.y;
+	input.mi.dwFlags = (MOUSEEVENTF_ABSOLUTE |/*MOUSEEVENTF_MOVE|*/MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP);
+	input.mi.mouseData = 0;
+	input.mi.dwExtraInfo = NULL;
+	input.mi.time = 0;
+	SendInput(1, &input, sizeof(INPUT));
+
+	SetCursorPos(p.x, p.y);
+}
 double BellRand(double width, double center)
 {
 	// Generates a random number around a given center and a distribution max length
@@ -174,7 +196,7 @@ public:
 	void KeyEvent(int key = 0x75, int skey = 0x75, double waitTime = 0, double waitRadius = 0)
 	{
 		keybd_event(key, skey, 0, 0);
-		Sleep(5);
+		Sleep(20);
 		keybd_event(key, skey, KEYEVENTF_KEYUP, 0);
 	}
 	void Play()

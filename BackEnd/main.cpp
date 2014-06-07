@@ -188,6 +188,8 @@ std::vector<BYTE> readFileBytes(std::string filename)
 // Command loop
 void commandLoop()
 {
+	GameBoyScreen g;
+	Point loc(g.anchor.X, g.anchor.Y+150);
 	long long lastTS = 0;
 	while (true)
 	{
@@ -200,6 +202,7 @@ void commandLoop()
 		{
 			if (k.timestamp > lastTS)
 			{
+				quickClick(loc);
 				applyMove(k);
 				lastTS = k.timestamp;
 			}
@@ -232,7 +235,7 @@ void screenGrabLoop()
 // this function never exits
 void client()
 {
-	//thread inputCreator(commandLoop);
+	thread inputCreator(commandLoop);
 	thread screenUpdater(screenGrabLoop);
 	while (1){}
 	// Grab a copy of the screen vals so we can have ids to update
