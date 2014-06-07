@@ -57,7 +57,7 @@
 
 .gameboard {
 	font-size: 5px;
-	margin: 1em auto;
+	margin: 3em auto;
 	width: 320px;
 	height: 288px;
 	border-radius: 5px;
@@ -84,104 +84,147 @@
 }
 
 #up {
-	display: inline-block;
-    line-height: 50px;
+	margin: 0 auto;
+	color: white;
+	display: table;
+    line-height: 30px;
 	text-align: center;
     position: relative;
-	background-color: white;
-	border-radius: 50%;
-	height: 60px;
+	background-color: #2ecc71;
+	border-radius: 10%;
+	border: 2px solid black;
+	height: 30px;
 	width: 60px;
 }
 
 #down {
-	display: inline-block;
-    line-height: 50px;
+	margin: 0 auto;
+	color: white;
+	display: table;
+    line-height: 30px;
 	text-align: center;
     position: relative;
-    background-color: white;
-    border-radius: 50%;
-    height: 60px;
-    width: 60px;
+	background-color: #2ecc71;
+	border-radius: 10%;
+	border: 2px solid black;
+	height: 30px;
+	width: 60px;
 }
 
 #left {
+	color: white;
 	display: inline-block;
-	line-height: 50px;
+    line-height: 30px;
 	text-align: center;
     position: relative;
-    background-color: white;
-    border-radius: 50%;
-    height: 60px;
-    width: 60px;
+	background-color: #2ecc71;
+	border-radius: 10%;
+	border: 2px solid black;
+	height: 30px;
+	width: 60px;	
 }
 
 #right {
+	margin: 0em 0em 0em 2.55em;
+	color: white;
 	display: inline-block;
-    line-height: 50px;
+    line-height: 30px;
 	text-align: center;
     position: relative;
-    background-color: white;
-    border-radius: 50%;
-    height: 60px;
-    width: 60px;
+	background-color: #2ecc71;
+	border-radius: 10%;
+	border: 2px solid black;
+	height: 30px;
+	width: 60px;
 }
 
 #a {
 	display: inline-block;
-    line-height: 100px;
+    line-height: 80px;
 	text-align: center;
 	position: relative;
-    background-color: white;
+    background-color: #2ecc71;
+	color: white;
+	border: 2px solid black;
     border-radius: 50%;
-    height: 100px;
-    width: 100px;
+    height: 80px;
+    width: 80px;
 }
 
 #b {
 	display: inline-block;
-    line-height: 100px;
+    line-height: 80px;
 	text-align: center;
 	position: relative;
-    background-color: white;
+    background-color: #2ecc71;
+	color: white;
+	border: 2px solid black;
     border-radius: 50%;
-    height: 100px;
-    width: 100px;
+    height: 80px;
+    width: 80px;
 }
 
 #start {
-	margin: 0px 0px 0px 2.5em;
+	margin: 0px 0px 0px 2em;
 	display: inline-block;
-    line-height: 40px;
+    line-height: 30px;
 	text-align: center;
 	position: relative;
-	background-color: white;
-    border-radius: 50%;
-    height: 60px;
+	background-color: #2ecc71;
+	color: white;
+	border: 2px solid black;
+    border-radius: 10%;
+    height: 30px;
     width: 60px;
 }
 
 #select {
 	display: inline-block;
-	line-height: 40px;
+	line-height: 30px;
 	text-align: center;
 	position: relative;
-    background-color: white;
-    border-radius: 50%;
-    height: 60px;
+    background-color: #2ecc71;
+	color: white;
+	border: 2px solid black;
+    border-radius: 10%;
+    height: 30px;
     width: 60px;
 }
 
 #arrows {
 	margin: 0px 0px 0px 1em;
 	display: inline-block;
-	width: 150px;
+	width: 180px;
+}
+
+#Top {
+	margin: 1em 0em 0em 0em;
+	padding: 0.25em 0em 0em 0em;
+}
+
+#Middle {
+	margin: 0.5em 0em 0em 0em;
+	padding: 0.25em;
+}
+
+#Bottom {
+	margin: 0.5em 0em 1em 0em;
+	padding: 0.25em 0em 0em 0em;
+}
+
+#upper {
+	margin-bottom: 1em;	
+}
+
+#lower {
+	margin-top: 1.5em;
+	padding-left: 1em;
 }
 
 #othercontrol {
 	margin: 0.5em 0em 0.5em 0em;
 	display: inline-block;
-	width: 220px; 
+	width: 190px; 
 }
 
 #picture {
@@ -221,7 +264,7 @@
 	left: 1%;
 	top: 2%;
 	border-radius: 10px;
-	background-color: #2ecc71;
+	background-color: #006600;
 	opacity: .75;
 	position: fixed;
 	width: 10%;
@@ -235,7 +278,7 @@
 .move {
 	margin: 10px 5px 20px 5px;
 	display: block;
-	color: white;
+	color: #ecf0f1;
 	font-size: 18px;
 	border-radius: 4px;	
 	text-align: center;
@@ -264,11 +307,11 @@ body {
 
 #intro {
 
-	color: #9b59b6;
+	color: #ecf0f1;
 }
 
 h2 {
-	color: #e74c3c;
+	color: #006600;
 }
 
 .player {

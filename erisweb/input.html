@@ -1,13 +1,12 @@
 <head>
-  <title>Leaderboard</title>
+  <title>ERIS</title>
 </head>
 
 <body>
   <div id="outer">
    	<div id="Name">
 		<h1 id="title">ERIS</h1>
-  	</div>
-	<div id="fakeButton">Play</div> 
+  	</div> 
 	<div id="game" class="gameboard">{{> renderimage}}</div>
 	<div id="buttons"><p>{{> outputinput}}</p></div> 
 	<div id="overlay"><p>{{> displayoverlay}}</p></div>
@@ -24,16 +23,26 @@
 <template name="outputinput">
 	<div class="controls2">
 		<div id="arrows">
-			<div id="up">U</div>
-			<div id="down">D</div>
-			<div id="right">R</div>
-			<div id="left">L</div>
+			<div id="Top">
+				<div id="up">U</div>
+			</div>
+			<div id="Middle">
+				<div id="left">L</div>
+				<div id="right">R</div>
+			</div>
+			<div id="Bottom">
+				<div id="down">D</div>
+			</div>
 		</div>
 		<div id="othercontrol">
-			<div id="start">ST</div>
-			<div id="select">SEL</div>
-			<div id="a">A</div>
-			<div id="b">B</div>
+			<div id="upper">
+				<div id="start">ST</div>
+				<div id="select">SEL</div>
+			</div>
+			<div id="lower">
+				<div id="b">B</div>
+				<div id="a">A</div>
+			</div>
 		</div>
 	</div>
 </template>
